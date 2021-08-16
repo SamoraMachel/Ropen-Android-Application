@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,11 +37,18 @@ public class RegisterBusiness extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference("User");
 
+    private LocationFinder finder = new LocationFinder(this.getApplicationContext());
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_business);
+
+
+        finder = new LocationFinder(getApplicationContext());
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -62,6 +70,17 @@ public class RegisterBusiness extends AppCompatActivity {
             String password_text = password.getText().toString();
 
             Business businessObject = new Business(email_text, businessName_text, location_text, Integer.parseInt(phoneNumber_text));
+            double latitude = 0.0d;
+            double longitude = 0.0d;
+            if(finder.canGetLocation()) {
+                latitude = finder.getLatitude();
+                longitude = finder.getLongitude();
+            } else {
+                finder.showSettingsAlert();
+            }
+            businessObject.latitude = latitude;
+            businessObject.longitude = longitude;
+
 
             signUpClient(email_text, password_text, businessObject);
         });

@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,11 +31,11 @@ public class BusinessView extends AppCompatActivity {
     private TextView UserName;
     private Switch isOpened;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_view);
+
 
         businessName = (TextView) findViewById(R.id.bvBusinessName);
         businessLocation = (TextView) findViewById(R.id.bvLocation);

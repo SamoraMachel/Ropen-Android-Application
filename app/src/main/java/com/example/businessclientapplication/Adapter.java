@@ -1,7 +1,9 @@
 package com.example.businessclientapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +44,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         TextView businessLocation;
         TextView businessNumber;
         TextView businessStatus;
+        CardView businessItemHolder;
 
         public ViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);
@@ -49,6 +53,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             businessLocation = (TextView) itemView.findViewById(R.id.businessLocation);
             businessNumber = (TextView) itemView.findViewById(R.id.businessPhoneNumber);
             businessStatus = (TextView) itemView.findViewById(R.id.businessStatus);
+            businessItemHolder = (CardView) itemView.findViewById(R.id.businessItemHolder);
         }
     }
 
@@ -79,6 +84,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.businessStatus.setText("Closed");
             holder.businessStatus.setTextColor(Color.RED);
         }
+
+        holder.businessItemHolder.setOnClickListener(v -> {
+            double latitude = item.latitude;
+            double longitude = item.longitude;
+
+            String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?q=loc:%f,%f", latitude, longitude);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            holder.itemView.getContext().startActivity(intent);
+        });
 
     }
 

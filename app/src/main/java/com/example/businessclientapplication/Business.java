@@ -9,6 +9,8 @@ public class Business extends User{
     public String location;
     public int phoneNumber;
     public boolean opened = false;
+    public double latitude = 0.0d;
+    public double longitude = 0.0d;
 
     public Business(String email, String businessName, String location, int phoneNumber) {
         super(email, false);
